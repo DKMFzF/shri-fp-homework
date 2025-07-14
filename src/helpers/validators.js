@@ -67,7 +67,11 @@ export const validateFieldN5 = shapes => {
 };
 
 // 6. Ровно две зеленые фигуры (одна из зелёных – это треугольник), плюс одна красная. Четвёртая оставшаяся любого доступного цвета, но не нарушающая первые два условия
-export const validateFieldN6 = () => false;
+export const validateFieldN6 = allPass([
+  shapes => countGreen(shapes) === 2,
+  propEq('triangle', 'green'),
+  shapes => countRed(shapes) === 1
+]);
 
 // 7. Все фигуры оранжевые.
 export const validateFieldN7 = () => false;
