@@ -1,6 +1,17 @@
 import { 
-  allPass, anyPass, compose, count, equals, filter, includes, length, 
-  prop, propEq, values, both, complement, __, whereEq, countBy, identity 
+  allPass,
+  anyPass,
+  compose,
+  equals,
+  filter,
+  length, 
+  prop,
+  propEq,
+  values,
+  complement,
+  whereEq,
+  countBy,
+  identity 
 } from 'ramda';
 
 /**
@@ -22,18 +33,12 @@ import {
 
 const isWhite = equals('white');
 const isRed = equals('red');
-const isGreen = equals('green');
-const isBlue = equals('blue');
-const isOrange = equals('orange');
 
 const getColors = values;
 const countByColor = color => compose(length, filter(equals(color)), getColors);
 const countRed = countByColor('red');
 const countGreen = countByColor('green');
 const countBlue = countByColor('blue');
-const countOrange = countByColor('orange');
-
-const hasColor = color => compose(equals(color), prop(__));
 
 // 1. Красная звезда, зеленый квадрат, все остальные белые.
 export const validateFieldN1 = allPass([
