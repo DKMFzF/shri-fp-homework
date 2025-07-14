@@ -29,8 +29,6 @@ import {
  * Если какие либо функции написаны руками (без использования библиотек) это не является ошибкой
  */
 
-// Вспомогательные функции
-
 const isWhite = equals('white');
 const isRed = equals('red');
 
@@ -49,11 +47,9 @@ export const validateFieldN1 = allPass([
 ]);
 
 // 2. Как минимум две фигуры зеленые.
-//export const validateFieldN2 = () => false;
 export const validateFieldN2 = shapes => countGreen(shapes) >= 2;
 
 // 3. Количество красных фигур равно кол-ву синих.
-//export const validateFieldN3 = () => false;
 export const validateFieldN3 = shapes => countRed(shapes) === countBlue(shapes);
 
 // 4. Синий круг, красная звезда, оранжевый квадрат треугольник любого цвета
