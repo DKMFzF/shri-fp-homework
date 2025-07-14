@@ -59,7 +59,12 @@ export const validateFieldN4 = allPass([
 ]);
 
 // 5. Три фигуры одного любого цвета кроме белого (четыре фигуры одного цвета – это тоже true).
-export const validateFieldN5 = () => false;
+export const validateFieldN5 = shapes => {
+  const colorCounts = countBy(identity, getColors(shapes));
+  return Object.entries(colorCounts)
+    .filter(([color]) => color !== 'white')
+    .some(([, count]) => count >= 3);
+};
 
 // 6. Ровно две зеленые фигуры (одна из зелёных – это треугольник), плюс одна красная. Четвёртая оставшаяся любого доступного цвета, но не нарушающая первые два условия
 export const validateFieldN6 = () => false;
