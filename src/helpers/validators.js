@@ -48,10 +48,15 @@ export const validateFieldN1 = allPass([
 export const validateFieldN2 = shapes => countGreen(shapes) >= 2;
 
 // 3. Количество красных фигур равно кол-ву синих.
-export const validateFieldN3 = () => false;
+//export const validateFieldN3 = () => false;
+export const validateFieldN3 = shapes => countRed(shapes) === countBlue(shapes);
 
 // 4. Синий круг, красная звезда, оранжевый квадрат треугольник любого цвета
-export const validateFieldN4 = () => false;
+export const validateFieldN4 = allPass([
+  propEq('circle', 'blue'),
+  propEq('star', 'red'),
+  propEq('square', 'orange')
+]);
 
 // 5. Три фигуры одного любого цвета кроме белого (четыре фигуры одного цвета – это тоже true).
 export const validateFieldN5 = () => false;
