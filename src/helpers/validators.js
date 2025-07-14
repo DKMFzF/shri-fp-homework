@@ -82,10 +82,20 @@ export const validateFieldN7 = whereEq({
 });
 
 // 8. Не красная и не белая звезда, остальные – любого цвета.
-export const validateFieldN8 = () => false;
+export const validateFieldN8 = allPass([
+  compose(
+    complement(anyPass([isRed, isWhite])),
+    prop('star')
+  )
+]);
 
 // 9. Все фигуры зеленые.
-export const validateFieldN9 = () => false;
+export const validateFieldN9 = whereEq({
+  star: 'green',
+  square: 'green',
+  triangle: 'green',
+  circle: 'green'
+});
 
 // 10. Треугольник и квадрат одного цвета (не белого), остальные – любого цвета
 export const validateFieldN10 = () => false;
