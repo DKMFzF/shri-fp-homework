@@ -1,3 +1,16 @@
+import { NUMBERS_URL, ANIMALS_URL } from '../constants';
+import {
+  compose,
+  allPass,
+  test,
+  gt,
+  lt,
+  length,
+  __,
+  prop,
+} from 'ramda';
+import Api from '../tools/api';
+
 /**
  * @file Домашка по FP ч. 2
  *
@@ -14,38 +27,68 @@
  * Иногда промисы от API будут приходить в состояние rejected, (прямо как и API в реальной жизни)
  * Ответ будет приходить в поле {result}
  */
- import Api from '../tools/api';
 
- const api = new Api();
+const api = new Api();
 
- /**
-  * Я – пример, удали меня
-  */
- const wait = time => new Promise(resolve => {
-     setTimeout(resolve, time);
- })
+const hasOnlyNumbersAndDots = test(/^[0-9.]+$/);
+const isLongerThan2 = compose(lt(2), length);
+const isShorterThan10 = compose(gt(10), length);
+const isGreaterThanZero = compose(gt(__, 0), parseFloat);
 
- const processSequence = ({value, writeLog, handleSuccess, handleError}) => {
-     /**
-      * Я – пример, удали меня
-      */
-     writeLog(value);
+const validateString = allPass([
+  hasOnlyNumbersAndDots,
+  isLongerThan2,
+  isShorterThan10,
+  isGreaterThanZero,
+]);
 
-     api.get('https://api.tech/numbers/base', {from: 2, to: 10, number: '01011010101'}).then(({result}) => {
-         writeLog(result);
-     });
+const logAndReturn = (writeLog) => (value) => {
+  writeLog(value);
+  return value;
+};
 
-     wait(2500).then(() => {
-         writeLog('SecondLog')
+const parseAndRound = compose(Math.round, parseFloat);
 
-         return wait(1500);
-     }).then(() => {
-         writeLog('ThirdLog');
+const getBinaryFromNumber = (api) => (num) =>
+  api.get(NUMBERS_URL, { from: 10, to: 2, number: num }).then(prop('result'));
 
-         return wait(400);
-     }).then(() => {
-         handleSuccess('Done');
-     });
- }
+const getBinaryLength = (binary) => binary.length;
+
+const squareNumber = (num) => num * num;
+
+const getMod3 = (num) => num % 3;
+
+const getAnimalByMod = (api) => (mod) =>
+  api.get(`${ANIMALS_URL}/${mod}`, {}).then(prop('result'));
+
+const processValidatedValue = (writeLog, handleSuccess, handleError) => (str) => {
+  const log = logAndReturn(writeLog);
+  
+  return Promise.resolve(str)
+    .then(log)
+    .then(parseAndRound)
+    .then(log)
+    .then(getBinaryFromNumber(api))
+    .then(log)
+    .then(getBinaryLength)
+    .then(log)
+    .then(squareNumber)
+    .then(log)
+    .then(getMod3)
+    .then(log)
+    .then(getAnimalByMod(api))
+    .then(handleSuccess)
+    .catch(handleError);
+};
+
+const processSequence = ({ value, writeLog, handleSuccess, handleError }) => {
+  if (!validateString(value)) {
+    handleError('ValidationError');
+    return;
+  }
+
+  processValidatedValue(writeLog, handleSuccess, handleError)(value);
+};
 
 export default processSequence;
+

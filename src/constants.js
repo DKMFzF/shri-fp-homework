@@ -12,3 +12,7 @@ export const COLORS = {
     GREEN: 'green',
     WHITE: 'white',
 }
+
+export const NUMBERS_URL = 'https://api.tech/numbers/base';
+export const ANIMALS_URL = 'https://animals.tech';
+
