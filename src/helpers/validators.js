@@ -74,7 +74,12 @@ export const validateFieldN6 = allPass([
 ]);
 
 // 7. Все фигуры оранжевые.
-export const validateFieldN7 = () => false;
+export const validateFieldN7 = whereEq({
+  star: 'orange',
+  square: 'orange',
+  triangle: 'orange',
+  circle: 'orange'
+});
 
 // 8. Не красная и не белая звезда, остальные – любого цвета.
 export const validateFieldN8 = () => false;
