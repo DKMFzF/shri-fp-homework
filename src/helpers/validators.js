@@ -98,4 +98,11 @@ export const validateFieldN9 = whereEq({
 });
 
 // 10. Треугольник и квадрат одного цвета (не белого), остальные – любого цвета
-export const validateFieldN10 = () => false;
+export const validateFieldN10 = allPass([
+  shapes => {
+    const triangleColor = shapes.triangle;
+    const squareColor = shapes.square;
+    return triangleColor === squareColor && triangleColor !== 'white';
+  }
+]);
+
